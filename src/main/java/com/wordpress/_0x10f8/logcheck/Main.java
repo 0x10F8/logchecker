@@ -1,34 +1,33 @@
 package com.wordpress._0x10f8.logcheck;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.wordpress._0x10f8.logcheck.match.RuleMatch;
 import com.wordpress._0x10f8.logcheck.rule.Rule;
-import com.wordpress._0x10f8.logcheck.rule.parser.RuleSerializer;
+import com.wordpress._0x10f8.logcheck.rule.RuleFactory;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeHierarchyAdapter(Rule.class, new RuleSerializer());
-        builder.setPrettyPrinting();
-        builder.disableHtmlEscaping();
-        Gson gson = builder.create();
-
-
-        Rule fromFile = gson.fromJson(new String(Files.readAllBytes(Paths.get("./rules/VeryActiveClient.json"))), Rule.class);
+        final List<Rule> rules = RuleFactory.loadRulesFromFiles(Arrays.asList(new File("./rules/SQLiCompositeRule.json"),
+                new File("./rules/VeryActiveClient.json"), new File("./rules/XSSCompositeRule.json")));
         final File logFile = new File("./logs/test_log");
-        final List<RuleMatch> matches = fromFile.evaluate(logFile);
-        System.out.println("Found " + matches.size() + " log rows in file [" + logFile.getName() + "] matching the rule [" + fromFile.getName() + "]");
 
-        for (int i = 0; i < matches.size() && i < 100; i++) {
-            final RuleMatch match = matches.get(i);
+        final List<RuleMatch> allMatches = new ArrayList<>();
+
+        for (final Rule rule : rules) {
+            System.out.println("Analysing logfile " + logFile.getName() + " with rule " + rule.getName());
+            allMatches.addAll(rule.evaluate(logFile));
+        }
+
+        System.out.println("Found " + allMatches.size() + " log rows in file [" + logFile.getName() + "]");
+
+        for (int i = 0; i < allMatches.size() && i < 100; i++) {
+            final RuleMatch match = allMatches.get(i);
             System.out.println("Found match " + match.getMatchingRuleName() + " " + match.getDescription());
         }
 

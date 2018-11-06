@@ -1,0 +1,24 @@
+{
+  "ruleType": "CompositeRule",
+  "operator": "OR",
+  "name": "XSS Composite",
+  "rules": [
+    {
+      "ruleType": "ContainsRule",
+      "caseType": "IGNORE_CASE",
+      "containsString": "<script",
+      "name": "Simple XSS Open Script Tag Check"
+    },
+    {
+      "ruleType": "ContainsRule",
+      "caseType": "IGNORE_CASE",
+      "containsString": "alert(",
+      "name": "Simple XSS Alert Check"
+    },
+    {
+      "ruleType": "SingleLineRegexRule",
+      "regularExpression": "^.*script.*$",
+      "name": "Regex XSS Script Check"
+    }
+  ]
+}

@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class SurroundingMatchContainsRule extends AbstractRule {
 
-    private static final String DESC_FORMAT_STR = "The string [%s] was found in %d surrounding lines";
+    private static final String DESC_FORMAT_STR = "The string [%s] was found in %d of %d surrounding lines";
 
     private String regularExpression;
     private int regexGroup;
@@ -86,11 +86,11 @@ public class SurroundingMatchContainsRule extends AbstractRule {
                 if (containsStringForThisLine != null && !containsStringForThisLine.trim().isEmpty()
                         && (!limitResults || !matchesMap.containsKey(containsStringForThisLine))) {
                     final List<Integer> matchingLines = listLinesWithMatchingString(allLines, i, containsStringForThisLine, this.caseType);
-                    if (matchingLines != null && matchingLines.size() >= this.surroundingCountTrigger) {
+                    if (matchingLines.size() >= this.surroundingCountTrigger) {
                         final int logLine = i + 1;
                         final RuleMatch match = new RuleMatch(this.getName(), new LogEntryReference(logFile, logLine));
                         /* If limit results is set then only pick out a single result for each contains string */
-                        match.setDescription(String.format(DESC_FORMAT_STR, containsStringForThisLine, matchingLines.size()));
+                        match.setDescription(String.format(DESC_FORMAT_STR, containsStringForThisLine, matchingLines.size(), this.surroundingLinesToSearch));
                         if (this.limitResults && !matchesMap.containsKey(containsStringForThisLine)) {
                             matchesMap.put(containsStringForThisLine, match);
                         } else {

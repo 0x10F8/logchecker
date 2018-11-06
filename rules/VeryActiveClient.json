@@ -5,5 +5,6 @@
   "regexGroup": 1,
   "caseType": "CASE_SENSITIVE",
   "surroundingCountTrigger": 200,
-  "surroundingLinesToSearch": 300
+  "surroundingLinesToSearch": 300,
+  "limitResults": true
 }

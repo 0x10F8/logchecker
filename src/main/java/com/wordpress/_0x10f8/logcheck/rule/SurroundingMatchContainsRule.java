@@ -5,9 +5,7 @@ import com.wordpress._0x10f8.logcheck.match.RuleMatch;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,6 +19,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
     private ContainsRule.CaseType caseType;
     private int surroundingCountTrigger;
     private int surroundingLinesToSearch;
+    private boolean limitResults;
 
     public String getRegularExpression() {
         return regularExpression;
@@ -62,28 +61,52 @@ public class SurroundingMatchContainsRule extends AbstractRule {
         this.regexGroup = regexGroup;
     }
 
+    public void setLimitResults(final boolean limitResults) {
+        this.limitResults = limitResults;
+    }
+
+    public boolean isLimitResults() {
+        return this.limitResults;
+    }
+
     @Override
     public List<RuleMatch> evaluate(final File logFile) throws IOException {
         final Pattern regularExpressionPattern = Pattern.compile(regularExpression);
         final List<RuleMatch> matches = Collections.synchronizedList(new ArrayList<>());
         final List<String> allLines = tokenizeLog(logFile);
 
+        /* Used to pick out unique matches if limit results is set */
+        final Map<String, RuleMatch> matchesMap = new HashMap<>();
+
         for (int i = 0; i < allLines.size(); i++) {
             final String line = allLines.get(i);
             final Matcher matcher = regularExpressionPattern.matcher(line);
             if (matcher.find()) {
                 final String containsStringForThisLine = matcher.group(this.regexGroup);
-                if (containsStringForThisLine != null && !containsStringForThisLine.trim().isEmpty()) {
+                if (containsStringForThisLine != null && !containsStringForThisLine.trim().isEmpty()
+                        && (!limitResults || !matchesMap.containsKey(containsStringForThisLine))) {
                     final List<Integer> matchingLines = listLinesWithMatchingString(allLines, i, containsStringForThisLine, this.caseType);
                     if (matchingLines != null && matchingLines.size() >= this.surroundingCountTrigger) {
                         final int logLine = i + 1;
                         final RuleMatch match = new RuleMatch(this.getName(), new LogEntryReference(logFile, logLine));
+                        /* If limit results is set then only pick out a single result for each contains string */
                         match.setDescription(String.format(DESC_FORMAT_STR, containsStringForThisLine, matchingLines.size()));
-                        matches.add(match);
+                        if (this.limitResults && !matchesMap.containsKey(containsStringForThisLine)) {
+                            matchesMap.put(containsStringForThisLine, match);
+                        } else {
+                            matches.add(match);
+                        }
                     }
                 }
             }
         }
+        /* Pick the unique entries from the map if limit results is set */
+        if (this.limitResults) {
+            for (Map.Entry<String, RuleMatch> matchEntry : matchesMap.entrySet()) {
+                matches.add(matchEntry.getValue());
+            }
+        }
+
         return matches;
     }
 

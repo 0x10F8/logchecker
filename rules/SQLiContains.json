@@ -1,0 +1,6 @@
+{
+  "ruleType": "ContainsRule",
+  "caseType": "IGNORE_CASE",
+  "containsString": "OR 1=1",
+  "name": "Simple SQLi OR 1=1 Check"
+}

@@ -22,10 +22,15 @@ public class Main {
         Gson gson = builder.create();
 
 
-        Rule fromFile = gson.fromJson(new String(Files.readAllBytes(Paths.get("./rules/CompositeRuleTest.json"))), Rule.class);
+        Rule fromFile = gson.fromJson(new String(Files.readAllBytes(Paths.get("./rules/VeryActiveClient.json"))), Rule.class);
         final File logFile = new File("./logs/test_log");
         final List<RuleMatch> matches = fromFile.evaluate(logFile);
         System.out.println("Found " + matches.size() + " log rows in file [" + logFile.getName() + "] matching the rule [" + fromFile.getName() + "]");
+
+        for (int i = 0; i < matches.size() && i < 100; i++) {
+            final RuleMatch match = matches.get(i);
+            System.out.println("Found match " + match.getMatchingRuleName() + " " + match.getDescription());
+        }
 
     }
 }

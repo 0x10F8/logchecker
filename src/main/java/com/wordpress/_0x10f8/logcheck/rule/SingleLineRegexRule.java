@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 
 public class SingleLineRegexRule extends AbstractRule {
 
-    private Pattern regularExpressionPattern;
     private String regularExpression;
 
     public String getRegularExpression() {
@@ -18,11 +17,11 @@ public class SingleLineRegexRule extends AbstractRule {
 
     public void setRegularExpression(final String regularExpression) {
         this.regularExpression = regularExpression;
-        this.regularExpressionPattern = Pattern.compile(regularExpression);
     }
 
     @Override
     public List<RuleMatch> evaluate(final File logFile) throws IOException {
-        return super.mapFunctionToFile(logFile, (s -> this.regularExpressionPattern.matcher(s).find()));
+        final Pattern regularExpressionPattern = Pattern.compile(regularExpression);
+        return super.mapFunctionToFile(logFile, (s -> regularExpressionPattern.matcher(s).find()));
     }
 }

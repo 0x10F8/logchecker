@@ -16,7 +16,6 @@ public class SurroundingMatchContainsRule extends AbstractRule {
     private static final String DESC_FORMAT_STR = "The string [%s] was found in %d surrounding lines";
 
     private String regularExpression;
-    private Pattern regularExpressionPattern;
     private int regexGroup;
 
     private ContainsRule.CaseType caseType;
@@ -29,7 +28,6 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
     public void setRegularExpression(final String regularExpression) {
         this.regularExpression = regularExpression;
-        this.regularExpressionPattern = Pattern.compile(regularExpression);
     }
 
     public int getSurroundingCountTrigger() {
@@ -66,6 +64,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
     @Override
     public List<RuleMatch> evaluate(final File logFile) throws IOException {
+        final Pattern regularExpressionPattern = Pattern.compile(regularExpression);
         final List<RuleMatch> matches = Collections.synchronizedList(new ArrayList<>());
         final List<String> allLines = tokenizeLog(logFile);
 

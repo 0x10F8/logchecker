@@ -1,0 +1,9 @@
+{
+  "name": "Very Active Client",
+  "ruleType": "SurroundingMatchContainsRule",
+  "regularExpression": "^([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}).*$",
+  "regexGroup": 1,
+  "caseType": "CASE_SENSITIVE",
+  "surroundingCountTrigger": 200,
+  "surroundingLinesToSearch": 300
+}

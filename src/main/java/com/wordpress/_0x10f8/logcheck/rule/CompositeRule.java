@@ -1,46 +1,13 @@
 package com.wordpress._0x10f8.logcheck.rule;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.wordpress._0x10f8.logcheck.log.LogEntryReference;
 import com.wordpress._0x10f8.logcheck.match.RuleMatch;
-import com.wordpress._0x10f8.logcheck.rule.parser.RuleSerializer;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class CompositeRule extends AbstractRule {
-
-    public static void main(String[] args) throws Exception {
-        ContainsRule containsRule = new ContainsRule();
-        containsRule.setCaseType(ContainsRule.CaseType.IGNORE_CASE);
-        containsRule.setName("Test for my name");
-        containsRule.setContainsString("Calum");
-
-        CompositeRule rule = new CompositeRule();
-        rule.setLogicalOperator(LogicalOperator.OR);
-        rule.addRule(containsRule);
-        rule.setName("Test Comp Rule");
-
-
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeHierarchyAdapter(Rule.class, new RuleSerializer());
-        builder.setPrettyPrinting();
-        builder.disableHtmlEscaping();
-        Gson gson = builder.create();
-
-        System.out.println(gson.toJson(rule));
-
-
-        Rule fromFile = gson.fromJson(new String(Files.readAllBytes(Paths.get("./rules/CompositeRuleTest.json"))), Rule.class);
-        final File logFile = new File("./logs/ssl_access_log");
-        final List<RuleMatch> matches = fromFile.evaluate(logFile);
-        System.out.println("Found " + matches.size() + " log rows in file [" + logFile.getName() + "] matching the rule [" + fromFile.getName() + "]");
-
-    }
 
     enum LogicalOperator {
         AND, OR;

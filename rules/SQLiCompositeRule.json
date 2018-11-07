@@ -12,7 +12,13 @@
     {
       "ruleType": "ContainsRule",
       "caseType": "IGNORE_CASE",
-      "containsString": "UNION",
+      "containsString": "+UNION",
+      "name": "Simple SQLi Union Check"
+    },
+    {
+      "ruleType": "ContainsRule",
+      "caseType": "IGNORE_CASE",
+      "containsString": "%20UNION",
       "name": "Simple SQLi Union Check"
     }
   ]

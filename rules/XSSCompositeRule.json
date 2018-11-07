@@ -17,7 +17,7 @@
     },
     {
       "ruleType": "SingleLineRegexRule",
-      "regularExpression": "^.*script(?!\\.js).*$",
+      "regularExpression": "^.*script(?!\\.js|[a-zA-Z]).*$",
       "name": "Regex XSS Script Check"
     }
   ]

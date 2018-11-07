@@ -6,6 +6,7 @@ import com.wordpress._0x10f8.logcheck.match.RuleMatch;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public abstract class AbstractRule implements Rule {
 
 
     List<String> tokenizeLog(final File logFile) throws IOException {
-        return Files.readAllLines(Paths.get(logFile.toURI()));
+        return Files.readAllLines(Paths.get(logFile.toURI()), StandardCharsets.ISO_8859_1);
     }
 
     List<RuleMatch> mapFunctionToFile(final File logFile, final Matcher<String> matcherFunction) throws IOException {

@@ -4,16 +4,14 @@
   "name": "Command Injection Composite",
   "rules": [
     {
-      "ruleType": "ContainsRule",
-      "caseType": "IGNORE_CASE",
-      "containsString": "netcat",
-      "name": "Simple Netcat Check"
+      "ruleType": "SingleLineRegexRule",
+      "regularExpression": "^.+?(n|N)(e|E)(t|T)(c|C)(a|A)(t|T)(?!/).*$",
+      "name": "Regex Simple Netcat Check"
     },
     {
-      "ruleType": "ContainsRule",
-      "caseType": "IGNORE_CASE",
-      "containsString": "whoami",
-      "name": "Simple Whoami Check"
+      "ruleType": "SingleLineRegexRule",
+      "regularExpression": "^.+?(w|W)(h|H)(o|O)(a|A)(m|M)(i|I)(?!/).*$",
+      "name": "Regex Simple Whoami Check"
     }
   ]
 }

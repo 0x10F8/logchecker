@@ -1,0 +1,19 @@
+{
+  "ruleType": "CompositeRule",
+  "operator": "OR",
+  "name": "Command Injection Composite",
+  "rules": [
+    {
+      "ruleType": "ContainsRule",
+      "caseType": "IGNORE_CASE",
+      "containsString": "netcat",
+      "name": "Simple Netcat Check"
+    },
+    {
+      "ruleType": "ContainsRule",
+      "caseType": "IGNORE_CASE",
+      "containsString": "whoami",
+      "name": "Simple Whoami Check"
+    }
+  ]
+}

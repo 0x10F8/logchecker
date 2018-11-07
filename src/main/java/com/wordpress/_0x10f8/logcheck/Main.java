@@ -20,9 +20,10 @@ public class Main {
         final List<Rule> rules = RuleFactory.loadRulesFromFiles(Arrays.asList(
                 new File("./rules/SQLiCompositeRule.json"),
                 new File("./rules/VeryActiveClient.json"),
-                new File("./rules/XSSCompositeRule.json")));
+                new File("./rules/XSSCompositeRule.json"),
+                new File("./rules/CommandiCompositeRule.json")));
 
-        final File logFile = new File("./logs/test_log2");
+        final File logFile = new File("./logs/test_log");
 
         final List<RuleMatch> allMatches = new ArrayList<>();
 

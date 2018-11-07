@@ -27,4 +27,5 @@ logchecker\.iml
 logchecker\.idea
 \.idea/
 
-logs/
+
+target/maven-archiver/pom\.properties

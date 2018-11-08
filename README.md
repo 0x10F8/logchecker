@@ -2,9 +2,6 @@
 Log parsing utility written in Java
 
 
-[Javadoc](https://0x10f8.github.io/logchecker/)
-
-
 ![UML](https://raw.githubusercontent.com/0x10F8/logchecker/master/docs/UML.png)
 
 

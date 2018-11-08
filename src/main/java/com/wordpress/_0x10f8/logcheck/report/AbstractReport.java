@@ -1,51 +1,73 @@
 package com.wordpress._0x10f8.logcheck.report;
 
-import com.wordpress._0x10f8.logcheck.match.RuleMatch;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import com.wordpress._0x10f8.logcheck.match.RuleMatch;
+
+/**
+ * Abstract report implementation, provides some useful collection of matches
+ * into "per file" maps and "per file per rule" maps.
+ *
+ */
 public abstract class AbstractReport implements Report {
 
-    protected Map<File, List<RuleMatch>> perFileResults;
-    protected Map<File, Map<String, List<RuleMatch>>> perFilePerRule;
-    protected Set<File> uniqueFileSet;
-    protected int totalResults;
-    protected int uniqueLogFilesAffected;
+	/** A mapping of files to the matches in those files */
+	protected Map<File, List<RuleMatch>> perFileResults;
 
-    @Override
-    public void handleOutput(final List<RuleMatch> evaluationResults) throws IOException {
-        this.totalResults = evaluationResults.size();
-        this.uniqueFileSet = new HashSet<>();
-        this.perFileResults = new HashMap<>();
-        this.perFilePerRule = new HashMap<>();
+	/** A mapping of files to a mapping of rule names to the list of rule matches */
+	protected Map<File, Map<String, List<RuleMatch>>> perFilePerRule;
 
-        for (final RuleMatch match : evaluationResults) {
-            uniqueFileSet.add(match.getLogReference().getLogFile());
+	/** Set of unique files in matches */
+	protected Set<File> uniqueFileSet;
 
-            List<RuleMatch> perFileList = perFileResults.get(match.getLogReference().getLogFile());
-            if (perFileList == null) {
-                perFileList = new ArrayList<>();
-            }
-            perFileList.add(match);
-            perFileResults.put(match.getLogReference().getLogFile(), perFileList);
+	/** The total results found */
+	protected int totalResults;
 
-            Map<String, List<RuleMatch>> perRuleForFile = perFilePerRule.get(match.getLogReference().getLogFile());
-            if (perRuleForFile == null) {
-                perRuleForFile = new HashMap<>();
-            }
-            perFilePerRule.put(match.getLogReference().getLogFile(), perRuleForFile);
+	/** Number of unique log files matched */
+	protected int uniqueLogFilesAffected;
 
-            List<RuleMatch> perTypeList = perRuleForFile.get(match.getMatchingRuleName());
-            if (perTypeList == null) {
-                perTypeList = new ArrayList<>();
-            }
-            perTypeList.add(match);
-            perRuleForFile.put(match.getMatchingRuleName(), perTypeList);
+	/**
+	 * Populate the protected helper fields
+	 */
+	@Override
+	public void handleOutput(final List<RuleMatch> evaluationResults) throws IOException {
+		this.totalResults = evaluationResults.size();
+		this.uniqueFileSet = new HashSet<>();
+		this.perFileResults = new HashMap<>();
+		this.perFilePerRule = new HashMap<>();
 
-        }
+		for (final RuleMatch match : evaluationResults) {
+			uniqueFileSet.add(match.getLogReference().getLogFile());
 
-        this.uniqueLogFilesAffected = uniqueFileSet.size();
-    }
+			List<RuleMatch> perFileList = perFileResults.get(match.getLogReference().getLogFile());
+			if (perFileList == null) {
+				perFileList = new ArrayList<>();
+			}
+			perFileList.add(match);
+			perFileResults.put(match.getLogReference().getLogFile(), perFileList);
+
+			Map<String, List<RuleMatch>> perRuleForFile = perFilePerRule.get(match.getLogReference().getLogFile());
+			if (perRuleForFile == null) {
+				perRuleForFile = new HashMap<>();
+			}
+			perFilePerRule.put(match.getLogReference().getLogFile(), perRuleForFile);
+
+			List<RuleMatch> perTypeList = perRuleForFile.get(match.getMatchingRuleName());
+			if (perTypeList == null) {
+				perTypeList = new ArrayList<>();
+			}
+			perTypeList.add(match);
+			perRuleForFile.put(match.getMatchingRuleName(), perTypeList);
+
+		}
+
+		this.uniqueLogFilesAffected = uniqueFileSet.size();
+	}
 }

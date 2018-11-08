@@ -1,7 +1,7 @@
 {
   "ruleType": "CompositeRule",
   "operator": "OR",
-  "name": "SQL Injection Composite",
+  "name": "SQL Injection",
   "rules": [
     {
       "ruleType": "ContainsRule",

@@ -10,67 +10,94 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The parsing engine for the log checker, takes the log files and rules and
+ * applies rules to log files. If the verbose option is set it will also display
+ * the progress of the parsing as this can take some time.
+ *
+ */
 public class ParsingEngine {
 
-    private final List<File> logFiles;
-    private final List<File> ruleFiles;
-    private final boolean verboseProgress;
-    private final ProgressBar progressBar = new ProgressBar(50, 0, 100, 80);
+	private final List<File> logFiles;
+	private final List<File> ruleFiles;
+	private final boolean verboseProgress;
+	private final ProgressBar progressBar = new ProgressBar(50, 0, 100, 80);
 
-    public ParsingEngine(final List<File> logFiles, final List<File> ruleFiles, final boolean verboseProgress) {
-        this.logFiles = logFiles;
-        this.ruleFiles = ruleFiles;
-        this.verboseProgress = verboseProgress;
-    }
+	/**
+	 * Initialise the parsing engine with the log files, rules to apply to the logs
+	 * and the verbose option flag.
+	 * 
+	 * @param logFiles        The log files to analyse
+	 * @param ruleFiles       The rules to analyse with
+	 * @param verboseProgress The verbose flag
+	 */
+	public ParsingEngine(final List<File> logFiles, final List<File> ruleFiles, final boolean verboseProgress) {
+		this.logFiles = logFiles;
+		this.ruleFiles = ruleFiles;
+		this.verboseProgress = verboseProgress;
+	}
 
-    public List<RuleMatch> runParser() throws IOException {
+	/**
+	 * Run the parser and return the results
+	 * 
+	 * @return The results of running the rules on the logs, a list of
+	 *         {@link RuleMatch}
+	 * @throws IOException If there was an issue reading the log or rule files
+	 */
+	public List<RuleMatch> runParser() throws IOException {
 
-        long totalSize = 0;
+		long totalSize = 0;
 
-        final List<Rule> rules = RuleFactory.loadRulesFromFiles(this.ruleFiles);
-        final List<RuleMatch> allMatches = new ArrayList<>();
-        final int maximumOperations = (rules.size() * logFiles.size());
+		final List<Rule> rules = RuleFactory.loadRulesFromFiles(this.ruleFiles);
+		final List<RuleMatch> allMatches = new ArrayList<>();
+		final int maximumOperations = (rules.size() * logFiles.size());
 
-        progressBar.setMaximumValue(maximumOperations);
+		progressBar.setMaximumValue(maximumOperations);
 
-        int currentOperations = 0;
+		int currentOperations = 0;
 
-        progressBar.setStartTime();
+		progressBar.setStartTime();
 
+		if (verboseProgress) {
+			printProgress("", currentOperations);
+		}
 
-        if (verboseProgress) {
-            printProgress("", currentOperations);
-        }
+		for (final File logFile : logFiles) {
+			totalSize += logFile.length();
+			for (final Rule rule : rules) {
+				final String fileMessage = "Analysing log [" + logFile.getName() + "] with Rule [" + rule.getName()
+						+ "]";
+				if (verboseProgress) {
+					printProgress(fileMessage, currentOperations);
+					currentOperations++;
+				}
+				allMatches.addAll(rule.evaluate(logFile));
 
+				if (verboseProgress) {
+					printProgress(fileMessage, currentOperations);
+				}
+			}
+		}
 
-        for (final File logFile : logFiles) {
-            totalSize += logFile.length();
-            for (final Rule rule : rules) {
-                final String fileMessage = "Analysing log [" + logFile.getName() + "] with Rule [" + rule.getName() + "]";
-                if (verboseProgress) {
-                    printProgress(fileMessage, currentOperations);
-                    currentOperations++;
-                }
-                allMatches.addAll(rule.evaluate(logFile));
+		if (verboseProgress) {
+			progressBar.done(System.out);
+			System.out.println();
+			System.out.println(String.format("Took %s to analyse %dMB of logs %d times.", progressBar.getTotalTime(),
+					(totalSize / 1024 / 1024), rules.size()));
+		}
 
-                if (verboseProgress) {
-                    printProgress(fileMessage, currentOperations);
-                }
-            }
-        }
+		return allMatches;
+	}
 
-        if (verboseProgress) {
-            progressBar.done(System.out);
-            System.out.println();
-            System.out.println(String.format("Took %s to analyse %dMB of logs %d times.", progressBar.getTotalTime(), (totalSize / 1024 / 1024), rules.size()));
-        }
-
-        return allMatches;
-    }
-
-    private void printProgress(final String name, final int currentOperations) {
-        progressBar.setMessage(name);
-        progressBar.setCurrentValue(currentOperations);
-        progressBar.printProgressBar(System.out);
-    }
+	/**
+	 * Print the progress to STD OUT
+	 * 
+	 * @param message           The message to display with the progress
+	 * @param currentOperations The current progress
+	 */
+	private void printProgress(final String message, final int currentOperations) {
+		progressBar.setMessage(message);
+		progressBar.setCurrentValue(currentOperations);
+		progressBar.printProgressBar(System.out);
+	}
 }

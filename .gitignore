@@ -33,3 +33,7 @@ target/maven-archiver/pom\.properties
 target/surefire-reports/
 
 target/
+
+\.classpath
+
+\.project

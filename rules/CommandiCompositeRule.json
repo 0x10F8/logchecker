@@ -1,7 +1,7 @@
 {
   "ruleType": "CompositeRule",
   "operator": "OR",
-  "name": "Command Injection Composite",
+  "name": "Command Injection",
   "rules": [
     {
       "ruleType": "SingleLineRegexRule",

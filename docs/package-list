@@ -1,0 +1,8 @@
+com.wordpress._0x10f8.logcheck
+com.wordpress._0x10f8.logcheck.cli
+com.wordpress._0x10f8.logcheck.engine
+com.wordpress._0x10f8.logcheck.log
+com.wordpress._0x10f8.logcheck.match
+com.wordpress._0x10f8.logcheck.report
+com.wordpress._0x10f8.logcheck.rule
+com.wordpress._0x10f8.logcheck.rule.parser

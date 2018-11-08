@@ -8,14 +8,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class ProgressBar {
 
-	private final int barLength;
-	private final int minimumValue;
-	private final int messageLength;
+	private final short barLength;
+	private final short minimumValue;
+	private final short messageLength;
 
-	private int maximumValue;
+	private short maximumValue;
 	private String message;
 	private long startTime;
-	private int currentValue;
+	private short currentValue;
 
 	/* Progress Bar Formatting String */
 	private static final String PROGRESS_BAR_FORMAT = "%s %s%% %s %s/%d (%s)";
@@ -40,7 +40,7 @@ public class ProgressBar {
 	 * @param maximumValue  The maximum progress value
 	 * @param messageLength The message length
 	 */
-	public ProgressBar(final int barLength, final int minimumValue, final int maximumValue, final int messageLength) {
+	public ProgressBar(final short barLength, final short minimumValue, final short maximumValue, final short messageLength) {
 		this.barLength = barLength;
 		this.minimumValue = minimumValue;
 		this.maximumValue = maximumValue;
@@ -53,7 +53,7 @@ public class ProgressBar {
 	 *
 	 * @param maximumValue The maximum value
 	 */
-	public void setMaximumValue(int maximumValue) {
+	public void setMaximumValue(short maximumValue) {
 		this.maximumValue = maximumValue;
 	}
 
@@ -71,7 +71,7 @@ public class ProgressBar {
 	 *
 	 * @param currentValue the current value
 	 */
-	public void setCurrentValue(final int currentValue) {
+	public void setCurrentValue(final short currentValue) {
 		this.currentValue = currentValue;
 	}
 

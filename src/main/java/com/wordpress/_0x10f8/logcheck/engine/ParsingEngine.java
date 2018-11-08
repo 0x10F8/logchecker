@@ -26,10 +26,13 @@ public class ParsingEngine {
 	private final List<File> logFiles;
 	private final List<File> ruleFiles;
 	private final boolean verboseProgress;
-	private final ProgressBar progressBar = new ProgressBar(50, 0, 100, 80);
-	private final int threads;
 
-	private int currentOperations = 0;
+	private static final short barLength = 50, minimumValue = 0, maximumValue = 100, messageLength = 80;
+
+	private final ProgressBar progressBar = new ProgressBar(barLength, minimumValue, maximumValue, messageLength);
+	private final short threads;
+
+	private short currentOperations = 0;
 
 	/* Thread synchronization lock */
 	private final Object syncLock = new Object();
@@ -43,7 +46,7 @@ public class ParsingEngine {
 	 * @param threads         Number of threads to work with
 	 * @param verboseProgress The verbose flag
 	 */
-	public ParsingEngine(final List<File> logFiles, final List<File> ruleFiles, final int threads,
+	public ParsingEngine(final List<File> logFiles, final List<File> ruleFiles, final short threads,
 			final boolean verboseProgress) {
 		this.logFiles = logFiles;
 		this.ruleFiles = ruleFiles;
@@ -67,7 +70,7 @@ public class ParsingEngine {
 
 		final List<Rule> rules = RuleFactory.loadRulesFromFiles(this.ruleFiles);
 		final List<RuleMatch> allMatches = new ArrayList<>();
-		final int maximumOperations = (rules.size() * logFiles.size());
+		final short maximumOperations = (short) (rules.size() * logFiles.size());
 
 		progressBar.setMaximumValue(maximumOperations);
 
@@ -150,7 +153,7 @@ public class ParsingEngine {
 	 * @param message           The message to display with the progress
 	 * @param currentOperations The current progress
 	 */
-	private void printProgress(final String message, final int currentOperations) {
+	private void printProgress(final String message, final short currentOperations) {
 		progressBar.setMessage(message);
 		progressBar.setCurrentValue(currentOperations);
 		progressBar.printProgressBar(System.out);

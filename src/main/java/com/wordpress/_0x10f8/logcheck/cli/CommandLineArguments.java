@@ -43,7 +43,7 @@ public class CommandLineArguments {
 	private String outputFile;
 
 	@CommandLine.Option(names = { "-t", "--threads" }, description = "Number of threads to use", required = true)
-	private int threads;
+	private short threads;
 
 	private boolean argumentsSet = false;
 
@@ -145,7 +145,7 @@ public class CommandLineArguments {
 	 * 
 	 * @return number of threads
 	 */
-	public int getThreads() {
+	public short getThreads() {
 		return this.threads;
 	}
 

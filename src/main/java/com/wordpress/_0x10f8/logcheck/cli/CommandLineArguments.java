@@ -32,11 +32,11 @@ public class CommandLineArguments {
         try {
             CommandLine.populateCommand(this, args);
             this.argumentsSet = true;
+            this.logFiles = handleWildCards(this.logFiles);
+            this.ruleFiles = handleWildCards(this.ruleFiles);
         } catch (Exception e) {
             CommandLine.usage(this, System.out);
         }
-        this.logFiles = handleWildCards(this.logFiles);
-        this.ruleFiles = handleWildCards(this.ruleFiles);
     }
 
     private List<File> handleWildCards(final List<File> files) {

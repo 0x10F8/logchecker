@@ -1,0 +1,13 @@
+{
+  "ruleType": "CompositeRule",
+  "operator": "OR",
+  "name": "Directory Traversal",
+  "rules": [
+    {
+      "ruleType": "ContainsRule",
+      "caseType": "CASE_SENSITIVE",
+      "containsString": "../../",
+      "name": "Simple contains for Directory Traversal"
+    }
+  ]
+}

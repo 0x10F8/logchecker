@@ -1,0 +1,13 @@
+{
+  "ruleType": "CompositeRule",
+  "operator": "OR",
+  "name": "Vulnerability scanner",
+  "rules": [
+    {
+      "ruleType": "ContainsRule",
+      "caseType": "CASE_SENSITIVE",
+      "containsString": "(Nikto/",
+      "name": "Nikto"
+    }
+  ]
+}

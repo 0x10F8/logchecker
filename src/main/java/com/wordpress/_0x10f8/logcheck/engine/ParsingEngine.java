@@ -62,7 +62,7 @@ public class ParsingEngine {
         if (verboseProgress) {
             progressBar.done(System.out);
             System.out.println();
-            System.out.println(String.format("Took %s to analyse %dMB of logs.", progressBar.getTotalTime(), (totalSize / 1024 / 1024)));
+            System.out.println(String.format("Took %s to analyse %dMB of logs %d times.", progressBar.getTotalTime(), (totalSize / 1024 / 1024), rules.size()));
         }
 
         return allMatches;

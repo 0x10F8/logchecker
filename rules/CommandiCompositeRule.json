@@ -10,7 +10,7 @@
     },
     {
       "ruleType": "SingleLineRegexRule",
-      "regularExpression": "^.+?(w|W)(h|H)(o|O)(a|A)(m|M)(i|I)(?!/).*$",
+      "regularExpression": "^.+?(w|W)(h|H)(o|O)(a|A)(m|M)(i|I)(?!/|\\.|\\?).*$",
       "name": "Regex Simple Whoami Check"
     }
   ]

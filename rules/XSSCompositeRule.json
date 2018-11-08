@@ -6,19 +6,15 @@
     {
       "ruleType": "ContainsRule",
       "caseType": "IGNORE_CASE",
-      "containsString": "<script",
-      "name": "Simple XSS Open Script Tag Check"
-    },
-    {
-      "ruleType": "ContainsRule",
-      "caseType": "IGNORE_CASE",
       "containsString": "alert(",
       "name": "Simple XSS Alert Check"
     },
     {
       "ruleType": "SingleLineRegexRule",
-      "regularExpression": "^.*script(?!\\.js|[a-zA-Z]).*$",
+      "regularExpression": "^.*[^a-zA-Z0-9]script(?!\\.|[a-zA-Z]+?|\\/).*$",
       "name": "Regex XSS Script Check"
     }
   ]
 }
+
+

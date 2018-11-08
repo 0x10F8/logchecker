@@ -1,16 +1,19 @@
 package com.wordpress._0x10f8.logcheck.rule;
 
-import com.wordpress._0x10f8.logcheck.log.LogEntryReference;
-import com.wordpress._0x10f8.logcheck.match.Matcher;
-import com.wordpress._0x10f8.logcheck.match.RuleMatch;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
+
+import com.wordpress._0x10f8.logcheck.log.LogEntryReference;
+import com.wordpress._0x10f8.logcheck.match.Matcher;
+import com.wordpress._0x10f8.logcheck.match.RuleMatch;
 
 /**
  * Abstract rule, contains a useful method which maps a lambda function (or
@@ -18,6 +21,13 @@ import java.util.List;
  *
  */
 public abstract class AbstractRule implements Rule {
+
+	/*
+	 * Using this weak hash map to cache log files so that if multiple rules
+	 * tokenize the same file across threads we don't end up reloading the same file
+	 * into memory again
+	 */
+	private static final Map<File, List<String>> WEAK_CACHE = Collections.synchronizedMap(new WeakHashMap<>());
 
 	private String name;
 
@@ -49,7 +59,16 @@ public abstract class AbstractRule implements Rule {
 	 * @throws IOException If there was an issue reading the file
 	 */
 	List<String> tokenizeLog(final File logFile) throws IOException {
-		return Files.readAllLines(Paths.get(logFile.toURI()), StandardCharsets.ISO_8859_1);
+		List<String> logLines = null;
+		synchronized (WEAK_CACHE) {
+			logLines = WEAK_CACHE.get(logFile);
+			if (logLines == null) {
+				logLines = Files.readAllLines(Paths.get(logFile.toURI()), StandardCharsets.ISO_8859_1);
+				WEAK_CACHE.put(logFile, logLines);
+
+			}
+		}
+		return logLines;
 	}
 
 	/**
@@ -72,6 +91,15 @@ public abstract class AbstractRule implements Rule {
 			}
 		}
 		return matches;
+	}
+
+	/**
+	 * Clear the rule file cache
+	 */
+	public static void clearCache() {
+		synchronized (WEAK_CACHE) {
+			WEAK_CACHE.clear();
+		}
 	}
 
 }

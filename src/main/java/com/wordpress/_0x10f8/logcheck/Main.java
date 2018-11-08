@@ -29,7 +29,7 @@ public class Main {
 		if (cliArgs.isArgumentsSet()) {
 
 			final ParsingEngine engine = new ParsingEngine(cliArgs.getLogFiles(), cliArgs.getRuleFiles(),
-					cliArgs.isVerbose());
+					cliArgs.getThreads(), cliArgs.isVerbose());
 
 			final List<RuleMatch> results = engine.runParser();
 

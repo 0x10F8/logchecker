@@ -1,7 +1,5 @@
 package com.wordpress._0x10f8.logcheck.report;
 
-import com.wordpress._0x10f8.logcheck.match.RuleMatch;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -11,6 +9,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
+
+import com.wordpress._0x10f8.logcheck.match.RuleMatch;
 
 /**
  * Outputs a text file containing a detailed report of the parsing
@@ -64,6 +64,7 @@ public class TXTReport extends AbstractReport {
 								+ "\n").getBytes(StandardCharsets.UTF_8),
 						StandardOpenOption.APPEND);
 			}
+			removeFileFromCache(perFileResultsEntry.getKey());
 		}
 		System.out.println("Output text report to file " + outputFile.getAbsolutePath());
 	}
@@ -85,5 +86,15 @@ public class TXTReport extends AbstractReport {
 
 		}
 		return logLines.get(logLine - 1);
+	}
+
+	/**
+	 * Remove a file from the lines cache
+	 * 
+	 * @param logFile The file to remove
+	 */
+	private void removeFileFromCache(final File logFile) {
+		this.cachedLogLines.remove(logFile);
+		System.gc();
 	}
 }

@@ -1,11 +1,11 @@
 package com.wordpress._0x10f8.logcheck.cli;
 
-import picocli.CommandLine;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import picocli.CommandLine;
 
 /**
  * Parser for command line arguments
@@ -41,6 +41,9 @@ public class CommandLineArguments {
 
 	@CommandLine.Option(names = { "-o", "--output" }, description = "Output report file", required = true)
 	private String outputFile;
+
+	@CommandLine.Option(names = { "-t", "--threads" }, description = "Number of threads to use", required = true)
+	private int threads;
 
 	private boolean argumentsSet = false;
 
@@ -135,6 +138,15 @@ public class CommandLineArguments {
 	 */
 	public String getOutputFile() {
 		return this.outputFile;
+	}
+
+	/**
+	 * Get the number of threads to use
+	 * 
+	 * @return number of threads
+	 */
+	public int getThreads() {
+		return this.threads;
 	}
 
 }

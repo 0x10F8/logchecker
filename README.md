@@ -45,8 +45,8 @@ Output text report to file /Users/c0g/Desktop/logchecker/target/output.txt
 
 ### Example Report Output
 ```
-XSS Composite matched  in file /Users/calumgardiner/Logs/almhuette_access.log on line: 1553235
+XSS Composite matched  in file /Users/c0g/Logs/almhuette_access.log on line: 1553235
 	91.218.225.68 - - [20/Jun/2018:09:19:47 +0200] "GET /sgdynamo.exe?HTNAME=<script>alert('Vulnerable')</script> HTTP/1.1" 404 218 "-" "Mozilla/5.00 (Nikto/2.1.6) (Evasions:None) (Test:003083)" "-"
-XSS Composite matched  in file /Users/calumgardiner/Logs/almhuette_access.log on line: 1551271
+XSS Composite matched  in file /Users/c0g/Logs/almhuette_access.log on line: 1551271
 	91.218.225.68 - - [20/Jun/2018:09:17:36 +0200] "GET /administrator/gallery/navigation.php?directory=\\\"<script>alert(document.cookie)</script> HTTP/1.1" 404 242 "-" "Mozilla/5.00 (Nikto/2.1.6) (Evasions:None) (Test:000711)" "-"
 ```

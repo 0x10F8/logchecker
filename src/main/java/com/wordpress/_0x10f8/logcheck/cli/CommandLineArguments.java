@@ -9,7 +9,7 @@ import picocli.CommandLine;
 
 /**
  * Parser for command line arguments
- * 
+ *
  * <pre>
  * {@code
  * Usage: logchecker.jar [-v] -o=<outputFile> --logs=<logFiles>[,<logFiles>...]
@@ -44,6 +44,9 @@ public class CommandLineArguments {
 
 	@CommandLine.Option(names = { "-t", "--threads" }, description = "Number of threads to use", required = true)
 	private short threads;
+
+	@CommandLine.Option(names = "--whitelist", description = "IP Addresses to ignore", split = ",", required = false)
+	private List<String> whitelistedIPAddresses;
 
 	private boolean argumentsSet = false;
 
@@ -95,6 +98,10 @@ public class CommandLineArguments {
 		return withWildCardsExpanded;
 	}
 
+	public List<String> getWhitelistedIPAddresses() {
+	    return this.whitelistedIPAddresses;
+	}
+
 	/**
 	 * Get the rule files selected
 	 *
@@ -142,7 +149,7 @@ public class CommandLineArguments {
 
 	/**
 	 * Get the number of threads to use
-	 * 
+	 *
 	 * @return number of threads
 	 */
 	public short getThreads() {

@@ -17,7 +17,7 @@ public class Main {
 
 	/**
 	 * Parse CLi args and give them to the engine, do the work and output a report.
-	 * 
+	 *
 	 * @param args The CLi args
 	 * @throws Exception Haven't implemented proper exception handling yet
 	 */
@@ -29,7 +29,7 @@ public class Main {
 		if (cliArgs.isArgumentsSet()) {
 
 			final ParsingEngine engine = new ParsingEngine(cliArgs.getLogFiles(), cliArgs.getRuleFiles(),
-					cliArgs.getThreads(), cliArgs.isVerbose());
+					cliArgs.getThreads(), cliArgs.isVerbose(), cliArgs.getWhitelistedIPAddresses());
 
 			final List<RuleMatch> results = engine.runParser();
 

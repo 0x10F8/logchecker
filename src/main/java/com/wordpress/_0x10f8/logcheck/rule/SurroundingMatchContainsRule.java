@@ -36,7 +36,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
 	/**
 	 * Get the regular expression used to create the regex match string
-	 * 
+	 *
 	 * @return the regex string
 	 */
 	public String getRegularExpression() {
@@ -45,7 +45,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
 	/**
 	 * Set the regular expression match string
-	 * 
+	 *
 	 * @param regularExpression the regex string
 	 */
 	public void setRegularExpression(final String regularExpression) {
@@ -55,7 +55,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 	/**
 	 * Get the number of matches in surrounding logs required to trigger a line
 	 * match
-	 * 
+	 *
 	 * @return the trigger count
 	 */
 	public int getSurroundingCountTrigger() {
@@ -64,7 +64,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
 	/**
 	 * Set the number of matches in surrounding logs required to trigger a match
-	 * 
+	 *
 	 * @param surroundingCountTrigger The trigger count
 	 */
 	public void setSurroundingCountTrigger(final int surroundingCountTrigger) {
@@ -73,7 +73,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
 	/**
 	 * Get the number of surrounding lines to search
-	 * 
+	 *
 	 * @return surround lines to search
 	 */
 	public int getSurroundingLinesToSearch() {
@@ -82,7 +82,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
 	/**
 	 * Set the number of surrounding lines to search
-	 * 
+	 *
 	 * @param surroundingLinesToSearch surrounding lines to search
 	 */
 	public void setSurroundingLinesToSearch(final int surroundingLinesToSearch) {
@@ -91,7 +91,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
 	/**
 	 * Get the case type to match
-	 * 
+	 *
 	 * @return case type to match (CASE_SENSITIVE, IGNORE_CASE)
 	 */
 	public ContainsRule.CaseType getCaseType() {
@@ -100,7 +100,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
 	/**
 	 * Set the case type to match
-	 * 
+	 *
 	 * @param caseType The case type to match
 	 */
 	public void setCaseType(final ContainsRule.CaseType caseType) {
@@ -109,7 +109,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
 	/**
 	 * The regular expression group to match for the search string
-	 * 
+	 *
 	 * @return regex group number
 	 */
 	public int getRegexGroup() {
@@ -118,7 +118,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
 	/**
 	 * Set the regular expression group number to match for the search string
-	 * 
+	 *
 	 * @param regexGroup regex group number
 	 */
 	public void setRegexGroup(int regexGroup) {
@@ -131,7 +131,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 	 * particular search string. For example if the search string was an IP address
 	 * and this flag was set to true, even if the IP address was in 20/30
 	 * surrounding lines for 100,000 lines only 1 line would be returned as a match.
-	 * 
+	 *
 	 * @param limitResults The limit results flag
 	 */
 	public void setLimitResults(final boolean limitResults) {
@@ -140,7 +140,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
 	/**
 	 * Check if we are limiting results
-	 * 
+	 *
 	 * @return boolean flag
 	 */
 	public boolean isLimitResults() {
@@ -149,7 +149,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.wordpress._0x10f8.logcheck.rule.Rule#evaluate(java.io.File)
 	 */
 	@Override
@@ -200,7 +200,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
 	/**
 	 * Search the lines surrounding a specified line for a contains string
-	 * 
+	 *
 	 * @param allLines         All of the log lines
 	 * @param searchAroundLine The line we are searching around
 	 * @param containsString   The string to search for
@@ -240,7 +240,7 @@ public class SurroundingMatchContainsRule extends AbstractRule {
 
 	/**
 	 * Do a case sensitive or insensitive contains match
-	 * 
+	 *
 	 * @param containString The contains string to check for
 	 * @param line          The line to compare to
 	 * @param caseType      Whether we are case sensitive or not

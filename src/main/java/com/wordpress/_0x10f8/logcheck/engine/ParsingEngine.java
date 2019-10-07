@@ -25,6 +25,7 @@ public class ParsingEngine {
 
 	private final List<File> logFiles;
 	private final List<File> ruleFiles;
+	private final List<String> whitelistedIPAddresses;
 	private final boolean verboseProgress;
 
 	private static final short barLength = 50, minimumValue = 0, maximumValue = 100, messageLength = 80;
@@ -40,23 +41,24 @@ public class ParsingEngine {
 	/**
 	 * Initialise the parsing engine with the log files, rules to apply to the logs
 	 * and the verbose option flag.
-	 * 
+	 *
 	 * @param logFiles        The log files to analyse
 	 * @param ruleFiles       The rules to analyse with
 	 * @param threads         Number of threads to work with
 	 * @param verboseProgress The verbose flag
 	 */
 	public ParsingEngine(final List<File> logFiles, final List<File> ruleFiles, final short threads,
-			final boolean verboseProgress) {
+			final boolean verboseProgress, final List<String> whitelistedIPAddresses) {
 		this.logFiles = logFiles;
 		this.ruleFiles = ruleFiles;
 		this.threads = threads;
 		this.verboseProgress = verboseProgress;
+		this.whitelistedIPAddresses = whitelistedIPAddresses;
 	}
 
 	/**
 	 * Run the parser and return the results
-	 * 
+	 *
 	 * @return The results of running the rules on the logs, a list of
 	 *         {@link RuleMatch}
 	 * @throws IOException          If there was an issue reading the log or rule
@@ -68,6 +70,7 @@ public class ParsingEngine {
 
 		long totalSize = 0;
 
+		AbstractRule.setWhitelistedIPAddresses(whitelistedIPAddresses);
 		final List<Rule> rules = RuleFactory.loadRulesFromFiles(this.ruleFiles);
 		final List<RuleMatch> allMatches = new ArrayList<>();
 		final short maximumOperations = (short) (rules.size() * logFiles.size());
@@ -149,7 +152,7 @@ public class ParsingEngine {
 
 	/**
 	 * Print the progress to STD OUT
-	 * 
+	 *
 	 * @param message           The message to display with the progress
 	 * @param currentOperations The current progress
 	 */
